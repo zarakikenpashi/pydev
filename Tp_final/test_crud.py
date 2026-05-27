@@ -22,7 +22,7 @@ def test_delete():
 		contact = Contact(nom="Damas", email="damas@gmail.com", phone="+2250796321456")
 		crud.create(session, contact)
 		size_before = session.query(Contact).all()
-		crud.delete(session, 1)
+		crud.delete(session, contact.id)
 		size_after = session.query(Contact).all()
 
 		assert len(size_before) > len(size_after)

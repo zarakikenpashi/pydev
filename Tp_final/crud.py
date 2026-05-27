@@ -1,4 +1,3 @@
-import database
 from models import Contact
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -39,7 +38,7 @@ def delete(db, contactItem):
 	try:
 		db.delete(data)
 		db.commit()
-		
+
 		return {
 		    "message": "Utilisateur supprimé"
 		}
@@ -48,4 +47,7 @@ def delete(db, contactItem):
 		raise e
 
 def get_contacts(db):
-	return db.query(Contact).all()
+	try:
+		return db.query(Contact).all()
+	except SQLAlchemyError as e:
+		raise e
