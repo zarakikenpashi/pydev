@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 2 — Python Cheatsheet</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10;
+    --surface: #18181c;
+    --surface2: #222228;
+    --border: #2e2e38;
+    --accent: #3ecf8e;
+    --accent2: #f7c948;
+    --accent3: #7c6af7;
+    --accent4: #f76c6c;
+    --text: #eeeef0;
+    --muted: #888898;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; padding: 48px 32px; line-height: 1.6; }
+  .page { max-width: 900px; margin: 0 auto; }
+  .header { margin-bottom: 48px; }
+  .header-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 48px; font-weight: 800; line-height: 1.1; }
+  .header h1 span { color: var(--accent); }
+  .header-sub { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .section { margin-bottom: 40px; }
+  .section-title { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .memo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .memo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+  .memo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+  .memo-card.green::before { background: var(--accent); }
+  .memo-card.yellow::before { background: var(--accent2); }
+  .memo-card.purple::before { background: var(--accent3); }
+  .memo-card.red::before { background: var(--accent4); }
+  .memo-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .memo-card.green .memo-title { color: var(--accent); }
+  .memo-card.yellow .memo-title { color: var(--accent2); }
+  .memo-card.purple .memo-title { color: var(--accent3); }
+  .memo-card.red .memo-title { color: var(--accent4); }
+  .memo-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .memo-body strong { color: var(--text); font-weight: 600; }
+  .memo-body code { font-family: var(--mono); font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; }
+  .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+  .code-header { background: var(--surface2); padding: 8px 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+  .code-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .code-body { padding: 16px; font-family: var(--mono); font-size: 13px; line-height: 1.8; overflow-x: auto; }
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: var(--accent2); }
+  .cm { color: #546e7a; font-style: italic; }
+  .op { color: var(--accent4); }
+  .ok { color: var(--accent); }
+  .err { color: var(--accent4); }
+  .hl { background: rgba(62,207,142,0.10); display: inline-block; width: 100%; border-radius: 3px; padding: 0 4px; margin: 0 -4px; }
+  .rules { display: flex; flex-direction: column; gap: 8px; }
+  .rule { display: grid; grid-template-columns: 28px 1fr 1fr; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 13px; }
+  .rule-num { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 700; padding-top: 1px; }
+  .rule-bad { color: var(--accent4); }
+  .rule-good { color: var(--accent); }
+  .rule-bad code, .rule-good code { font-family: var(--mono); font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; }
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .badge { font-family: var(--mono); font-size: 11px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-tag">// Python 21 Jours · Coach</div>
+    <h1>Jour <span>02</span> — Cheatsheet</h1>
+    <div class="header-sub">Boucles · for · while · range() · break · continue · Patterns</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">mémos techniques</div>
+    <div class="memo-grid">
+      <div class="memo-card green">
+        <div class="memo-title">for vs while</div>
+        <div class="memo-body"><strong>for</strong> → nombre d'itérations connu à l'avance.<br><strong>while</strong> → on boucle tant qu'une condition est vraie. Nombre d'itérations inconnu.</div>
+      </div>
+      <div class="memo-card yellow">
+        <div class="memo-title">range() — bornes</div>
+        <div class="memo-body"><code>range(n)</code> → de 0 à n-1.<br><code>range(a, b)</code> → de a à b-1. <strong>La borne droite est toujours exclue.</strong><br><code>range(a, b, step)</code> → avec un pas.</div>
+      </div>
+      <div class="memo-card purple">
+        <div class="memo-title">break vs continue</div>
+        <div class="memo-body"><code>break</code> → <strong>stoppe</strong> la boucle immédiatement.<br><code>continue</code> → <strong>saute le reste</strong> de l'itération en cours et passe à la suivante.</div>
+      </div>
+      <div class="memo-card red">
+        <div class="memo-title">while False dès le départ</div>
+        <div class="memo-body">Si la condition est <strong>fausse dès le début</strong>, le corps de la boucle ne s'exécute <strong>jamais</strong>. Python vérifie la condition avant chaque itération, y compris la première.</div>
+      </div>
+      <div class="memo-card green">
+        <div class="memo-title">Pattern : boucle jusqu'à succès</div>
+        <div class="memo-body"><code>while True</code> + <code>break</code> = pattern standard quand on ne connaît pas le nombre de tentatives. Plus propre qu'un drapeau booléen.</div>
+      </div>
+      <div class="memo-card yellow">
+        <div class="memo-title">Factorisation dans les boucles</div>
+        <div class="memo-body">Si deux branches d'un <code>if/elif</code> font la même chose, <strong>sors ce code du if</strong>. Ne répète jamais une instruction qu'on peut écrire une seule fois.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">sheet code</div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> boucles_for.py</div>
+      <div class="code-body"><span class="cm"># ── for classique ───────────────────────────────────</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)          <span class="cm"># → 0 1 2 3 4</span>
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="fn">print</span>(i)          <span class="cm"># → 1 2 3 4 5</span>
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>):
+    <span class="fn">print</span>(i)          <span class="cm"># → 0 2 4 6 8  (pas de 2)</span>
+
+<span class="cm"># ── parcourir une liste ──────────────────────────────</span>
+fruits = [<span class="str">"pomme"</span>, <span class="str">"banane"</span>, <span class="str">"mangue"</span>]
+<span class="kw">for</span> fruit <span class="kw">in</span> fruits:
+    <span class="fn">print</span>(fruit)
+
+<span class="cm"># ── break et continue ────────────────────────────────</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="kw">if</span> i == <span class="num">3</span>:
+        <span class="kw">continue</span>      <span class="cm"># saute le 3, continue à 4</span>
+    <span class="kw">if</span> i == <span class="num">6</span>:
+        <span class="kw">break</span>         <span class="cm"># stoppe à 6</span>
+    <span class="fn">print</span>(i)          <span class="cm"># → 0 1 2 4 5</span></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> while_patterns.py</div>
+      <div class="code-body"><span class="cm"># ── while classique ─────────────────────────────────</span>
+compteur = <span class="num">0</span>
+<span class="kw">while</span> compteur < <span class="num">5</span>:
+    <span class="fn">print</span>(compteur)
+    compteur += <span class="num">1</span>     <span class="cm"># → 0 1 2 3 4</span>
+
+<span class="cm"># ── PATTERN PRO : while True + break ────────────────</span>
+<span class="hl"><span class="kw">while</span> <span class="kw">True</span>:                         <span class="ok"># ✓ boucle infinie contrôlée</span></span>
+    <span class="kw">try</span>:
+        valeur = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Entrez un nombre : "</span>))
+    <span class="kw">except</span> <span class="fn">ValueError</span>:
+        <span class="fn">print</span>(<span class="str">"Nombre invalide, réessayez"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">break</span>                       <span class="cm"># sortie propre si succès</span>
+
+<span class="cm"># ── ANTI-PATTERN : drapeau inutile ──────────────────</span>
+<span class="err">is_invalide = True                  # ✗ inutile</span>
+<span class="err">while is_invalide:</span>
+<span class="err">    ...</span>
+<span class="err">    is_invalide = False             # ✗ remplacer par while True + break</span></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> factorisation.py</div>
+      <div class="code-body"><span class="cm"># ── ANTI-PATTERN : répétition dans if/elif ──────────</span>
+<span class="err">if reponse > nombre:</span>
+<span class="err">    print("Trop grand")</span>
+<span class="err">    counter = counter + 1   # ✗ répété dans chaque branche</span>
+<span class="err">elif reponse < nombre:</span>
+<span class="err">    counter = counter + 1   # ✗</span>
+<span class="err">    print("Trop petit")</span>
+
+<span class="cm"># ── PATTERN PRO : factoriser ce qui est commun ──────</span>
+<span class="hl">counter += <span class="num">1</span>                <span class="ok"># ✓ une seule fois, avant le if</span></span>
+<span class="kw">if</span> reponse > nombre:
+    <span class="fn">print</span>(<span class="str">"Trop grand"</span>)
+<span class="kw">elif</span> reponse < nombre:
+    <span class="fn">print</span>(<span class="str">"Trop petit"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Bravo !"</span>)
+    <span class="kw">break</span>
+
+<span class="cm"># ── += est du sucre syntaxique ───────────────────────</span>
+counter += <span class="num">1</span>   <span class="cm"># identique à counter = counter + 1</span>
+counter -= <span class="num">1</span>   <span class="cm"># counter = counter - 1</span>
+counter *= <span class="num">2</span>   <span class="cm"># counter = counter * 2</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">règles d'or</div>
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-num">01</div>
+        <div class="rule-bad">❌ Drapeau booléen <code>isValid = False</code></div>
+        <div class="rule-good">✓ <code>while True</code> + <code>break</code> au succès</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">02</div>
+        <div class="rule-bad">❌ <code>range(1, 1000)</code> pour inclure 1000</div>
+        <div class="rule-good">✓ <code>range(1, 1001)</code> — borne droite toujours exclue</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">03</div>
+        <div class="rule-bad">❌ Répéter <code>counter += 1</code> dans chaque branche</div>
+        <div class="rule-good">✓ Factoriser avant le <code>if</code> si commun à toutes les branches</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">04</div>
+        <div class="rule-bad">❌ Valeurs hardcodées dans les messages <code>"entre 1 et 1000"</code></div>
+        <div class="rule-good">✓ Utiliser les variables <code>f"entre {mini} et {maxi}"</code></div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">05</div>
+        <div class="rule-bad">❌ <code>counter = counter + 1</code></div>
+        <div class="rule-good">✓ <code>counter += 1</code> — sucre syntaxique standard</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Python 21 Jours · Jour 02 / 21 · Coach</div>
+    <div class="badge">Phase 1 — Fondations</div>
+  </div>
+
+</div>
+</body>
+</html>

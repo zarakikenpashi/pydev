@@ -1,0 +1,64 @@
+Video Downloader
+
+Un outil simple en Python pour télécharger une vidéo ou uniquement l’audio depuis une URL.
+
+
+Installation
+
+1. Cloner le projet depuis GitHub
+
+git clone <repository_url>
+
+2. Télécharger: ffmpeg-master-latest-win64-gpl-shared.zip
+
+2. Accéder au dossier du projet
+
+cd <project_folder>
+
+
+3. Ouvrir un terminal dans le dossier du projet
+
+Assurez-vous que Python est installé sur votre machine.
+
+
+
+Utilisation
+
+Exécutez la commande suivante :
+
+python main.py --url "your_video_url" --format "video|audio"
+
+
+Paramètres
+
+
+--url   : URL de la vidéo à télécharger 
+--format: Type de téléchargement : 'video' ou 'audio'
+
+
+
+Exemples
+
+Télécharger une vidéo
+
+python main.py --url "https://youtube.com/example" --format "video"
+
+
+Télécharger uniquement l’audio
+
+python main.py --url "https://youtube.com/example" --format "audio"
+
+
+
+
+Formats disponibles
+
+- `video`
+- `audio`
+
+
+
+
+Auteur
+
+Développé avec Python

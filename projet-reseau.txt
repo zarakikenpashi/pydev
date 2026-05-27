@@ -1,0 +1,24 @@
+Niveau 1 — Débutant réseau
+
+Scanner les appareils connectés sur ton réseau local
+Ping automatique pour savoir qui est en ligne
+Alertes quand un nouvel appareil se connecte
+
+Niveau 2 — Intermédiaire
+
+Dashboard web des appareils connectés (FastAPI + nmap)
+Historique des connexions sauvegardé en BDD
+Notifications quand un appareil se connecte/déconnecte
+
+Niveau 3 — Avancé
+
+Blocage d'appareils via l'API box
+Coupure automatique selon une heure programmée
+Interception DNS pour voir les domaines visités
+Contrôle parental complet
+
+Niveau 4 — Expert
+
+Proxy avec inspection SSL
+VPN personnel
+IDS — système de détection d'intrusion

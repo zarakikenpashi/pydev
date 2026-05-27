@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 1 — Python Cheatsheet</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e10;
+    --surface: #18181c;
+    --surface2: #222228;
+    --border: #2e2e38;
+    --accent: #7c6af7;
+    --accent2: #f7c948;
+    --accent3: #3ecf8e;
+    --accent4: #f76c6c;
+    --text: #eeeef0;
+    --muted: #888898;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 48px 32px;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { margin-bottom: 48px; }
+  .header-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 48px; font-weight: 800; line-height: 1.1; }
+  .header h1 span { color: var(--accent); }
+  .header-sub { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 40px; }
+  .section-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* MEMO CARDS */
+  .memo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .memo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .memo-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .memo-card.purple::before { background: var(--accent); }
+  .memo-card.yellow::before { background: var(--accent2); }
+  .memo-card.green::before { background: var(--accent3); }
+  .memo-card.red::before { background: var(--accent4); }
+
+  .memo-icon { font-size: 18px; margin-bottom: 8px; }
+  .memo-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .memo-card.purple .memo-title { color: var(--accent); }
+  .memo-card.yellow .memo-title { color: var(--accent2); }
+  .memo-card.green .memo-title { color: var(--accent3); }
+  .memo-card.red .memo-title { color: var(--accent4); }
+  .memo-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .memo-body strong { color: var(--text); font-weight: 600; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .code-header {
+    background: var(--surface2);
+    padding: 8px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .code-body { padding: 16px; font-family: var(--mono); font-size: 13px; line-height: 1.8; overflow-x: auto; }
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: var(--accent2); }
+  .cm { color: #546e7a; font-style: italic; }
+  .op { color: var(--accent4); }
+  .ok { color: var(--accent3); }
+  .err { color: var(--accent4); }
+  .hl { background: rgba(124,106,247,0.12); display: inline-block; width: 100%; border-radius: 3px; padding: 0 4px; margin: 0 -4px; }
+
+  /* RULES TABLE */
+  .rules { display: flex; flex-direction: column; gap: 8px; }
+  .rule {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  .rule-num { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 700; padding-top: 1px; }
+  .rule-bad { color: var(--accent4); }
+  .rule-good { color: var(--accent3); }
+  .rule-bad code, .rule-good code { font-family: var(--mono); font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; }
+
+  /* FOOTER */
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .badge { font-family: var(--mono); font-size: 11px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-tag">// Python 21 Jours · Coach</div>
+    <h1>Jour <span>01</span> — Cheatsheet</h1>
+    <div class="header-sub">Types · Variables · Mutabilité · try/except · Duck Typing</div>
+  </div>
+
+  <!-- MEMOS -->
+  <div class="section">
+    <div class="section-title">mémos techniques</div>
+    <div class="memo-grid">
+      <div class="memo-card purple">
+        <div class="memo-title">Variable = étiquette, pas boîte</div>
+        <div class="memo-body">En Python, une variable pointe vers un objet en mémoire. <strong>Deux variables peuvent pointer vers le même objet.</strong> Copier une liste avec <code style="font-family:monospace">b = a</code> ne crée pas de copie — utilise <code style="font-family:monospace">b = a.copy()</code>.</div>
+      </div>
+      <div class="memo-card yellow">
+        <div class="memo-title">Typage dynamique</div>
+        <div class="memo-body">Python détecte le type <strong>à l'exécution</strong>, pas à la déclaration. Une variable peut changer de type. Utilise <code style="font-family:monospace">type(x)</code> pour inspecter et <code style="font-family:monospace">isinstance(x, int)</code> pour valider.</div>
+      </div>
+      <div class="memo-card green">
+        <div class="memo-title">Immuable vs Mutable</div>
+        <div class="memo-body"><strong>Immuables</strong> (non modifiables) : str, int, float, tuple, bool.<br><strong>Mutables</strong> (modifiables) : list, dict, set.<br>Lire un immuable = OK. Modifier = TypeError.</div>
+      </div>
+      <div class="memo-card red">
+        <div class="memo-title">input() retourne TOUJOURS str</div>
+        <div class="memo-body">Peu importe ce que l'utilisateur tape, <code style="font-family:monospace">input()</code> retourne une string. <strong>C'est <code style="font-family:monospace">float()</code> ou <code style="font-family:monospace">int()</code> qui peut lever ValueError</strong>, pas input() lui-même.</div>
+      </div>
+      <div class="memo-card purple">
+        <div class="memo-title">== vs is</div>
+        <div class="memo-body"><code style="font-family:monospace">==</code> compare les <strong>valeurs</strong>.<br><code style="font-family:monospace">is</code> compare les <strong>adresses mémoire</strong> via id().<br>Règle pro : n'utilise <code style="font-family:monospace">is</code> que pour <code style="font-family:monospace">x is None</code>.</div>
+      </div>
+      <div class="memo-card green">
+        <div class="memo-title">Duck Typing</div>
+        <div class="memo-body">Python ne vérifie pas le type — il vérifie si l'objet <strong>peut faire</strong> ce qu'on lui demande. <code style="font-family:monospace">"ha" * 2</code> = <code style="font-family:monospace">"haha"</code>. Flexibilité maximale, rigueur nécessaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET CODE -->
+  <div class="section">
+    <div class="section-title">sheet code</div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> types_et_variables.py</div>
+      <div class="code-body"><span class="cm"># ── Types fondamentaux ──────────────────────────────</span>
+<span class="kw">nom</span>    = <span class="str">"Lelouche"</span>        <span class="cm"># str   → immuable</span>
+<span class="kw">age</span>    = <span class="num">25</span>               <span class="cm"># int   → immuable</span>
+<span class="kw">prix</span>   = <span class="num">3500.50</span>          <span class="cm"># float → immuable</span>
+<span class="kw">actif</span>  = <span class="kw">True</span>             <span class="cm"># bool  → immuable</span>
+<span class="kw">vide</span>   = <span class="kw">None</span>             <span class="cm"># NoneType</span>
+
+<span class="fn">type</span>(nom)                  <span class="cm"># → &lt;class 'str'&gt;</span>
+<span class="fn">isinstance</span>(age, <span class="fn">int</span>)       <span class="cm"># → True</span>
+<span class="fn">isinstance</span>(prix, (int, float)) <span class="cm"># → True (multi-type check)</span>
+
+<span class="cm"># ── f-strings (toujours utiliser en prod) ───────────</span>
+<span class="fn">print</span>(<span class="str">f"Bonjour <span class="kw">{nom}</span>, tu as <span class="kw">{age}</span> ans"</span>)
+<span class="fn">print</span>(<span class="str">f"Prix : <span class="kw">{prix:.2f}</span> EUR"</span>)     <span class="cm"># .2f = 2 décimales</span>
+
+<span class="cm"># ── Opérations arithmétiques ────────────────────────</span>
+<span class="num">7</span> <span class="op">/</span> <span class="num">2</span>    <span class="cm"># → 3.5   division réelle</span>
+<span class="num">7</span> <span class="op">//</span> <span class="num">2</span>   <span class="cm"># → 3     floor division</span>
+<span class="num">7</span> <span class="op">%</span> <span class="num">2</span>    <span class="cm"># → 1     modulo (reste)</span>
+<span class="num">2</span> <span class="op">**</span> <span class="num">10</span>  <span class="cm"># → 1024  puissance</span></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> mutabilite.py</div>
+      <div class="code-body"><span class="cm"># ── Immuable : on peut LIRE, pas MODIFIER ───────────</span>
+texte = <span class="str">"hello"</span>
+<span class="fn">print</span>(texte[<span class="num">0</span>])     <span class="cm"># → "h"  ✓ lecture OK</span>
+texte[<span class="num">0</span>] = <span class="str">"H"</span>      <span class="err"># → TypeError ✗ modification interdite</span>
+
+<span class="cm"># ── Mutable : lecture ET modification ───────────────</span>
+fruits = [<span class="str">"pomme"</span>, <span class="str">"banane"</span>]
+fruits[<span class="num">0</span>] = <span class="str">"mangue"</span>       <span class="cm"># ✓ OK</span>
+fruits.append(<span class="str">"ananas"</span>)   <span class="cm"># ✓ OK</span>
+
+<span class="cm"># ── PIÈGE : copie de liste ──────────────────────────</span>
+a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+b = a              <span class="err"># ✗ b pointe vers le MÊME objet</span>
+b.append(<span class="num">4</span>)
+<span class="fn">print</span>(a)           <span class="err"># → [1, 2, 3, 4]  surprise !</span>
+
+<span class="hl">c = a.copy()       <span class="ok"># ✓ vraie copie indépendante</span></span>
+c.append(<span class="num">99</span>)
+<span class="fn">print</span>(a)           <span class="ok"># → [1, 2, 3, 4]  a est intact</span></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dot" style="background:#f76c6c"></div><div class="code-dot" style="background:#f7c948"></div><div class="code-dot" style="background:#3ecf8e"></div> try_except_propre.py</div>
+      <div class="code-body"><span class="cm"># ── Règle : try le plus PETIT possible ──────────────</span>
+
+taux = {<span class="str">"EUR"</span>: <span class="num">655.96</span>, <span class="str">"USD"</span>: <span class="num">605.00</span>, <span class="str">"GBP"</span>: <span class="num">760.00</span>}
+<span class="cm"># ↑ données statiques → HORS du try</span>
+
+<span class="kw">try</span>:
+    montant = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Montant en FCFA : "</span>))
+    <span class="cm"># ↑ seule ligne vraiment risquée → DANS le try</span>
+    <span class="cm"># input() → retourne TOUJOURS une str</span>
+    <span class="cm"># float() → peut lever ValueError si str non convertible</span>
+<span class="kw">except</span> <span class="fn">ValueError</span>:
+    <span class="fn">print</span>(<span class="str">"Veuillez entrer un montant valide (ex: 15000)"</span>)
+<span class="kw">else</span>:
+    <span class="cm"># else s'exécute SEULEMENT si aucune erreur</span>
+    <span class="kw">for</span> devise, valeur <span class="kw">in</span> taux.items():
+        <span class="fn">print</span>(<span class="str">f"  <span class="kw">{montant / valeur:.2f}</span> <span class="kw">{devise}</span>"</span>)
+
+<span class="cm"># ── == vs is ────────────────────────────────────────</span>
+a = [<span class="num">1</span>, <span class="num">2</span>]
+b = [<span class="num">1</span>, <span class="num">2</span>]
+a == b    <span class="cm"># → True  (mêmes valeurs)</span>
+a <span class="kw">is</span> b   <span class="cm"># → False (objets différents en mémoire)</span>
+
+x = <span class="kw">None</span>
+<span class="hl">x <span class="kw">is</span> <span class="kw">None</span>  <span class="ok"># ✓ seul usage pro de "is"</span></span></div>
+    </div>
+  </div>
+
+  <!-- RÈGLES D'OR -->
+  <div class="section">
+    <div class="section-title">règles d'or</div>
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-num">01</div>
+        <div class="rule-bad">❌ <code>b = a</code> pour "copier" une liste</div>
+        <div class="rule-good">✓ <code>b = a.copy()</code> ou <code>b = list(a)</code></div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">02</div>
+        <div class="rule-bad">❌ Mettre du code safe dans un <code>try</code></div>
+        <div class="rule-good">✓ <code>try</code> chirurgical : uniquement ce qui peut échouer</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">03</div>
+        <div class="rule-bad">❌ <code>"Bonjour " + nom + str(age)</code></div>
+        <div class="rule-good">✓ <code>f"Bonjour {nom}, {age} ans"</code></div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">04</div>
+        <div class="rule-bad">❌ <code>is</code> pour comparer des valeurs</div>
+        <div class="rule-good">✓ <code>is</code> uniquement pour <code>x is None</code></div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">05</div>
+        <div class="rule-bad">❌ Mélanger logique + validation + affichage</div>
+        <div class="rule-good">✓ Séparer : calculer / valider / afficher</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">Python 21 Jours · Jour 01 / 21 · Coach</div>
+    <div class="badge">Phase 1 — Fondations</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Lacunes à combler avant de postuler :
+-Context Managers, Décorateurs, Itérateurs — tu les utilises mais tu aurais du mal à les expliquer sous pression
+-Gestion d'erreurs HTTP — retourner {"errors": True} c'est bien, mais FastAPI a HTTPException pour les codes 404, 422 en standard
+-Validation dans PUT — tu ne valides pas le phone et l'email dans la route update

@@ -1,0 +1,6 @@
+1-Corriger le projet final
+2- une bonne structure de projet FastAPI
+3-Mon projet reseau dont les fonctionnalités sont:
+-Voir quels appareils sont connectés ✓
+-Voir à quelles IP/domaines ils se connectent ✓ (via DNS)
+-Bloquer certains sites ou couper l'accès à une heure ✓
